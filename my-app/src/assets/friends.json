@@ -1,0 +1,20 @@
+[
+    {
+      "name": "Alice",
+      "age": 32,
+      "dateJoined": "2023-05-10",
+      "id": "user123"
+    },
+    {
+      "name": "Bob",
+      "age": 28,
+      "dateJoined": "2023-07-22",
+      "id": "user456"
+    },
+    {
+      "name": "Charlie",
+      "age": 35,
+      "dateJoined": "2023-09-15",
+      "id": "user789"
+    }
+  ]

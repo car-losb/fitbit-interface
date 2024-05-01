@@ -1,0 +1,8 @@
+{
+    "firstName": "Carlos",
+    "lastName": "Betancur",
+    "age": 22,
+    "weight": 145,
+    "height": 175,
+    "devices": ["Fitbit Versa 3", "Fitbit Aria Air Scale"]
+  }
