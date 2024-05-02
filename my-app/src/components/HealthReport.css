@@ -1,45 +1,30 @@
 .HealthReport {
     width: 100%;
-    max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
-  }
-  
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-  
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-  }
-  
-  th {
-    background-color: #f2f2f2;
+    padding: 0px;
   }
   
   .tab-nav {
-    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    background-color: rgb(114, 175, 199);
   }
   
   .tab-nav ul {
+    display: flex;
     list-style-type: none;
     padding: 0;
-    margin: 0;
+    margin-left: 20px;
   }
   
-  .tab-nav ul li {
-    display: inline-block;
-    margin-right: 10px;
+  .tab-nav li {
+    margin-right: 20px;
     cursor: pointer;
-    padding: 5px 10px;
-    background-color: #f2f2f2;
-    border: 1px solid #ddd;
   }
   
-  .tab-nav ul li.active {
-    background-color: #ddd;
+  .tab-nav li.active {
+    font-weight: bold;
   }
   
   .tab-content {
@@ -49,10 +34,54 @@
   
   .table-container {
     flex: 1;
+    max-width: 50%;
+    min-width: 400px;
+    margin: 20px;
+  }
+
+  canvas {
+    margin: 20px;
+    max-width: 400px;
   }
   
-  canvas {
-    flex: 1;
-    margin-left: 20px;
-    max-width: 300px;
+  .heart-rate-wrapper,
+  .weight-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .weight-tables-wrapper .table-container {
+    margin: 20px;
+    margin-right: 0px;
+  }
+  
+  .heart-rate-wrapper .table-container {
+    margin-right: 20px;
+  }
+  
+  .table-container table {
+    border: 1px solid #ddd; /* Add borders to the table */
+  }
+  
+  .table-container th,
+  .table-container td {
+    border: 1px solid #ddd; /* Add borders to the table cells */
+    padding: 8px;
+  }
+  
+  /* Additional CSS to align graphs vertically with their respective tables */
+  .weight-wrapper {
+    align-items: flex-start; /* Align items to the start of the flex container */
+  }
+  
+  .weight-wrapper canvas {
+    max-width: 400px;
+    max-height: 400px;
+    margin-left: 0px;
+  }
+
+  .table-and-chart-container {
+    display: flex;
+    justify-content: space-between;
   }
