@@ -3,6 +3,10 @@
     margin: 0 auto;
     padding: 0px;
   }
+
+  h1 {
+    text-align: center;
+  }
   
   .tab-nav {
     display: flex;
@@ -84,4 +88,22 @@
   .table-and-chart-container {
     display: flex;
     justify-content: space-between;
+  }
+
+  .exercise-wrapper .table-container {
+    min-width: 200%;
+  }
+
+  .exercise-wrapper {
+    width: 100%;
+    display: flex;
+  }
+  
+  .exercise-content {
+    flex: 1;
+    margin-right: 20px; /* Adjust the margin as needed */
+  }
+  
+  .exercise-chart {
+    flex: 1;
   }

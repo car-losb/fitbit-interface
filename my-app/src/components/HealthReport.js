@@ -3,6 +3,7 @@ import './HealthReport.css';
 import heartRateData from '../assets/heart-rate.json';
 import weightData from '../assets/weight-sleep.json';
 import calorieData from '../assets/calories.json'; 
+import exerciseData from '../assets/exercise.json';
 import Chart from 'chart.js/auto';
 
 const HealthReport = () => {
@@ -16,6 +17,8 @@ const HealthReport = () => {
   const [showWeightChangeChart, setShowWeightChangeChart] = useState(false); // New state
   const [caloriesData, setCaloriesData] = useState([]);
   const [showCaloriesChart, setShowCaloriesChart] = useState(false);
+  const [exerciseTableData, setExerciseTableData] = useState([]);
+  const [showExerciseChart, setShowExerciseChart] = useState(false);
 
   useEffect(() => {
     const getPreviousMonth = () => {
@@ -37,6 +40,8 @@ const HealthReport = () => {
     const aprilWeightData = weightData.filter(entry => entry.Date.startsWith('2024-04'));
 
     const aprilCaloriesData = calorieData.filter(entry => entry.Date.startsWith('2024-04'));
+
+    const aprilExerciseData = exerciseData.filter(entry => entry.Date.startsWith('2024-04'));
 
     // Calculate average heart rate for each day
     const averageHeartRates = aprilHeartRateData.map(entry => {
@@ -107,6 +112,38 @@ const HealthReport = () => {
 
   setCaloriesData(caloriesArray);
   setShowCaloriesChart(true);
+
+  const averageKmData = [];
+    let sumKmWalked = 0;
+    let sumKmSwam = 0;
+    count = 0;
+
+    aprilExerciseData.forEach((entry, index) => {
+      sumKmWalked += entry["Km Walked"];
+      sumKmSwam += entry["Km Swam"];
+      count++;
+
+      if (count === 7 || index === aprilExerciseData.length - 1) {
+        const avgKmWalked = sumKmWalked / count;
+        const avgKmSwam = sumKmSwam / count;
+        const weekStartDate = entry.Date;
+
+        averageKmData.push({
+          Date: weekStartDate,
+          AverageKmWalked: avgKmWalked.toFixed(2),
+          AverageKmSwam: avgKmSwam.toFixed(2)
+        });
+
+        // Reset variables for the next week
+        sumKmWalked = 0;
+        sumKmSwam = 0;
+        count = 0;
+      }
+    });
+
+    // Set exercise table data
+    setExerciseTableData(averageKmData);
+    setShowExerciseChart(true);
   }, []);
 
   const handleTabChange = (tabName) => {
@@ -116,21 +153,31 @@ const HealthReport = () => {
       setShowWeightChart(false);
       setShowWeightChangeChart(false);
       setShowCaloriesChart(false);
+      setShowExerciseChart(false);
     } else if (tabName === 'Weight') {
       setShowHeartRateChart(false);
       setShowWeightChart(true);
       setShowWeightChangeChart(true);
       setShowCaloriesChart(false);
+      setShowExerciseChart(false);
     } else if (tabName === 'Calories') {
       setShowHeartRateChart(false);
       setShowWeightChart(false);
       setShowWeightChangeChart(false);
       setShowCaloriesChart(true);
+      setShowExerciseChart(false);
+    } else if (tabName === 'Exercise') {
+      setShowHeartRateChart(false);
+      setShowWeightChart(false);
+      setShowWeightChangeChart(false);
+      setShowCaloriesChart(false);
+      setShowExerciseChart(true);
     } else {
       setShowHeartRateChart(false);
       setShowWeightChart(false);
       setShowWeightChangeChart(false);
       setShowCaloriesChart(false);
+      setShowExerciseChart(false);
     }
   };
 
@@ -142,8 +189,10 @@ const HealthReport = () => {
       updateWeightChangeChart('weightChangeChart', weightChange, 'Weight Change (lbs)');
     } else if (showCaloriesChart) {
       updateCaloriesChart('caloriesChart', caloriesData, 'Total Calories Consumed');
+    } else if (showExerciseChart) { // Update exercise chart if exercise tab is active
+      updateExerciseChart('exerciseChart', exerciseTableData, 'Average Distance Walked and Swam');
     }
-  }, [averageHeartRates, averageWeights, weightChange, caloriesData, showHeartRateChart, showWeightChart, showWeightChangeChart, showCaloriesChart]);
+  }, [averageHeartRates, averageWeights, weightChange, caloriesData, exerciseTableData, showHeartRateChart, showWeightChart, showWeightChangeChart, showCaloriesChart, showExerciseChart]); 
 
   const updateChart = (chartId, data, label) => {
     const labels = data.map(entry => entry.Date);
@@ -246,6 +295,49 @@ const HealthReport = () => {
             title: {
               display: true,
               text: 'Total Calories Consumed'
+            }
+          }
+        }
+      }
+    });
+  };
+
+  const updateExerciseChart = (chartId, data, label) => {
+    const labels = data.map(entry => entry.Date);
+    const valuesWalked = data.map(entry => entry.AverageKmWalked);
+    const valuesSwam = data.map(entry => entry.AverageKmSwam);
+
+    const ctx = document.getElementById(chartId);
+    const existingChart = Chart.getChart(ctx);
+
+    if (existingChart) {
+      existingChart.destroy();
+    }
+
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Average Km Walked/Run',
+          data: valuesWalked,
+          borderColor: 'rgb(54, 162, 235)',
+          fill: false
+        },
+        {
+          label: 'Average Km Swam',
+          data: valuesSwam,
+          borderColor: 'rgb(255, 205, 86)',
+          fill: false
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+            title: {
+              display: true,
+              text: 'Kilometers'
             }
           }
         }
@@ -358,7 +450,35 @@ const HealthReport = () => {
           </div>
         </div>
         )}
-        {activeTab === 'Exercise' && <div>Exercise Content</div>}
+        {activeTab === 'Exercise' && (
+        <div className="exercise-wrapper">
+        <div className="exercise-content">
+        <div className="table-container">
+            <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Average Km Walked/Run</th>
+                    <th>Average Km Swam</th>
+                </tr>
+            </thead>
+            <tbody>
+                {exerciseTableData.map((entry, index) => (
+                    <tr key={index}>
+                    <td>{entry.Date}</td>
+                    <td>{entry.AverageKmWalked}</td>
+                    <td>{entry.AverageKmSwam}</td>
+                </tr>
+                ))}
+            </tbody>
+            </table>
+        </div>
+        </div>
+        <div className="exercise-chart">
+            <canvas id="exerciseChart"></canvas>
+        </div>
+    </div>
+        )}
         {activeTab === 'Risk Analysis' && <div>Risk Analysis Content</div>}
       </div>
     </div>
