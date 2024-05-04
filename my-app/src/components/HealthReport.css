@@ -8,12 +8,14 @@
     text-align: center;
     color:rgba(0, 0, 0, 0.575);
   }
-  
+
   .tab-nav {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between; /* Add space between items */
+    align-items: center; /* Vertically center items */
     width: 100%;
     background-color: rgb(114, 175, 199);
+    padding-right: 20px; /* Add padding to the right */
   }
   
   .tab-nav ul {
@@ -117,6 +119,7 @@
     margin-left: 20px;
     border-radius: 5px;
     text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
   .risk-analysis-textbox.red {
@@ -138,8 +141,8 @@
 
   .options-section {
     position: absolute;
-    top: 132px; /* Adjust the top position as needed */
-    right: 0; /* Positioning all the way to the right */
+    top: 140px; /* Adjust the top position as needed */
+    right: 20px; /* Positioning all the way to the right */
     width: 300px; /* Adjust the width as needed */
     height: 300px; /* Adjust the height as needed */
     background-color: #e0e0e075; /* Adjust the background color as needed */
@@ -147,6 +150,7 @@
     border-radius: 5px; /* Adjust the border radius as needed */
     text-align: left;
     padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   }
   
   .options-section h2 {
@@ -169,7 +173,53 @@
   }
 
   .options-section label {
+    display: flex;
+    align-items: right; /* Align items vertically */
+    margin-bottom: 10px; /* Adjust vertical spacing between checkboxes */
     width: 100%;
+    font-weight:lighter;
+    color: black;
   }
+  
+  .options-section input[type="checkbox"] {
+    margin-right: 0px; /* Adjust horizontal spacing between checkbox and label */
+    width: 10px;
+  }
+
+  .approve-button {
+    position: absolute;
+    width: 200px;
+    top: 0;
+    right: 20px;
+    background-color: rgb(231, 185, 84);
+    color: black;
+    margin-top: 20px;
+    font-size: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .approve-button:hover {
+    background-color: rgb(198, 150, 47); /* Change background color to yellow on hover */
+  }
+
+  .red-text {
+    color: rgb(83, 127, 47);
+    font-weight:bold;
+  }
+
+  .weight-wrapper .options-section, .exercise-wrapper .options-section {
+    height: 350px;
+  }
+
+  .popup-heading {
+    text-align: center;
+    margin-bottom: 10px; /* Add some margin to separate from the paragraph */
+  }
+  
+  .popup-text {
+    text-align: left;
+    margin: 20px;
+  }
+
 
   

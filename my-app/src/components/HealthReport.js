@@ -5,6 +5,8 @@ import weightData from '../assets/weight-sleep.json';
 import calorieData from '../assets/calories.json'; 
 import exerciseData from '../assets/exercise.json';
 import waterData from '../assets/water.json';
+import profileData from '../assets/profile.json';
+import Popup from './Popup';
 
 import Chart from 'chart.js/auto';
 
@@ -28,6 +30,7 @@ const HealthReport = () => {
   const [includeExerciseVisuals, setIncludeExerciseVisuals] = useState(true);
   const [includeExercise, setIncludeExercise] = useState(true);
   const [includeInsights, setIncludeInsights] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     const getPreviousMonth = () => {
@@ -449,9 +452,30 @@ const HealthReport = () => {
     setIncludeInsights(!includeInsights);
   };
 
+  const togglePopup = () => {
+    setShowPopup(!showPopup);
+  };
+
+  const { firstName, lastName, age, sex } = profileData;
+
   return (
-    <div className="HealthReport">
+    <div className="popup-container">
+    {showPopup && (
+      <div className="popup">
+        {Popup}
+        <h2 className="popup-heading">Health Report Approved</h2>
+        <p className="popup-text">The Report for... </p>
+        <ul className="popup-list">
+            <li><span className="red-text">Patient: </span> {firstName.charAt(0)}{lastName.charAt(0)}</li>
+            <li><span className="red-text">Age: </span> {age}</li>
+            <li><span className="red-text">Sex: </span>{sex}</li>
+          </ul>
+          <p className="popup-text"> has been approved. Health insurer will receive this information promptly.</p>
+      </div>
+    )}
+    <div className={`HealthReport ${showPopup ? 'blur-background' : ''}`}>
       <h1>{previousMonth} Health Report</h1>
+      <button className="approve-button" onClick={togglePopup}>Approve Report >></button>
       <nav className="tab-nav">
         <ul>
           <li className={activeTab === 'Heart Rate' ? 'active' : ''} onClick={() => handleTabChange('Heart Rate')}>Heart Rate</li>
@@ -484,6 +508,10 @@ const HealthReport = () => {
             </div>
             <div className="options-section">
             <h2>Information</h2>
+            <p> Heart Rate data tracks your average heart rate per day <span className="red-text">(as recorded by your fitbit)</span> and is used to identify potential risk for 
+                cardiovascular disorders.
+            </p>
+            <p>Feel free to include a <span className="red-text">visualization</span> of this data at your discretion.</p>
             <label>
               Include Visuals:
               <input
@@ -507,7 +535,7 @@ const HealthReport = () => {
                 <table>
                   <thead>
                     <tr>
-                      <th>Date</th>
+                      <th>Week</th>
                       <th>Average Weight</th>
                     </tr>
                   </thead>
@@ -525,7 +553,7 @@ const HealthReport = () => {
                 <table>
                   <thead>
                     <tr>
-                    <th className={includeWeightChangeVisuals ? "" : "transparent-header"}>Date</th>
+                    <th className={includeWeightChangeVisuals ? "" : "transparent-header"}>Week</th>
                     <th className={includeWeightChangeVisuals ? "" : "transparent-header"}>Weight Change</th>
                     </tr>
                   </thead>
@@ -542,7 +570,13 @@ const HealthReport = () => {
             </div>
             <div className="options-section">
                 <h2>Information</h2>
+                <p> Weight Rate data tracks your average weight rate per week <span className="red-text">(as recorded by your fitbit)</span> and is used to identify potential harmful
+                weight patterns. 
+                </p>
+                <p>If you are on a <span className="red-text">weight change</span> journey and would like to share your progress, please feel free to include weight change data.</p>
+                <p>Feel free to include a <span className="red-text">visualization</span> of this data at your discretion.</p>
                 <label>
+
                 Include Visuals:
                 <input
                   type="checkbox"
@@ -597,6 +631,10 @@ const HealthReport = () => {
       </div>
       <div className="options-section">
               <h2>Information</h2>
+              <p> Water and Calorie data tracks your average consumption per day <span className="red-text">(according to your fitbit logs)</span> and is used to identify potential risk for 
+                unlhealthy diet habits that might solicit at-risk care.
+            </p>
+            <p>Feel free to include a <span className="red-text">visualization</span> of this data at your discretion.</p>
               <label>
                 Include Visuals:
                 <input
@@ -640,6 +678,11 @@ const HealthReport = () => {
         </div>
         <div className="options-section">
                 <h2>Information</h2>
+                <p> Exercise data tracks your average distance run or swam per week <span className="red-text">(according to your fitbit logs)</span> and is used for participation in
+                health insurance incentive programs.
+            </p>
+            <p>If you would like to share your <span className="red-text">physical activity</span> with health providers feel free to do so atl your discretion.</p>
+            <p>Feel free to include a <span className="red-text">visualization</span> of this data at your discretion.</p>
                 <label>
           Include Visuals:
           <input
@@ -674,7 +717,9 @@ const HealthReport = () => {
     <div>
     <div className={`risk-analysis-textbox ${checkHeartRateStatus()}`}>
       {checkHeartRateStatus() === 'red' ? (
+        <div>
         <p>The patient does not meet benchmark heart rate standards.</p>
+        </div>
       ) : (
         <p>The patient meets heart rate benchmark standards.</p>
       )}
@@ -690,6 +735,10 @@ const HealthReport = () => {
     )}
     <div className="options-section">
                 <h2>Information</h2>
+                <p> By analyzing your data, insights can help determine wether or not your health metrics <span className="red-text">(as collected by your fitbit)</span> meet benchmark standards and help 
+                    insurers provide you with "at-risk" care if necessary.
+            </p>
+            <p>If you would like to share your <span className="red-text">insights</span> with health providers feel free to do so atl your discretion.</p>
                 <label>
         Include Insights:
         <input
@@ -702,6 +751,7 @@ const HealthReport = () => {
         </div>
     )}
       </div>
+    </div>
     </div>
   );
 };
