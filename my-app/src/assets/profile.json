@@ -1,6 +1,7 @@
 {
-    "firstName": "Carlos",
-    "lastName": "Betancur",
+    "firstName": "Jane",
+    "lastName": "Doe",
+    "sex": "female",
     "age": 22,
     "weight": 145,
     "height": 175,

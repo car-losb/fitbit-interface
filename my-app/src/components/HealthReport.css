@@ -6,6 +6,7 @@
 
   h1 {
     text-align: center;
+    color:rgba(0, 0, 0, 0.575);
   }
   
   .tab-nav {
@@ -20,6 +21,7 @@
     list-style-type: none;
     padding: 0;
     margin-left: 20px;
+    color: white;
   }
   
   .tab-nav li {
@@ -46,7 +48,7 @@
   canvas {
     margin: 20px;
     max-width: 400px;
-  }
+  } 
   
   .heart-rate-wrapper,
   .weight-wrapper {
@@ -80,8 +82,8 @@
   }
   
   .weight-wrapper canvas {
-    max-width: 400px;
-    max-height: 400px;
+    max-width: 300px;
+    max-height: 300px;
     margin-left: 0px;
   }
 
@@ -95,7 +97,7 @@
   }
 
   .exercise-wrapper {
-    width: 100%;
+    width: 80%;
     display: flex;
   }
   
@@ -107,3 +109,67 @@
   .exercise-chart {
     flex: 1;
   }
+
+  .risk-analysis-textbox {
+    width: 100%;
+    padding: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .risk-analysis-textbox.red {
+    background-color: #ffcccc;
+  }
+  
+  .risk-analysis-textbox.green {
+    background-color: #ccffcc;
+  }
+
+  .calories-wrapper {
+    min-width: 50%;
+    font-size: 15px;
+  }
+
+  .calories-wrapper .td {
+    font-size: 10px;
+  }
+
+  .options-section {
+    position: absolute;
+    top: 132px; /* Adjust the top position as needed */
+    right: 0; /* Positioning all the way to the right */
+    width: 300px; /* Adjust the width as needed */
+    height: 300px; /* Adjust the height as needed */
+    background-color: #e0e0e075; /* Adjust the background color as needed */
+    border: 1px solid #ccc; /* Adjust the border as needed */
+    border-radius: 5px; /* Adjust the border radius as needed */
+    text-align: left;
+    padding: 10px;
+  }
+  
+  .options-section h2 {
+    margin: 0;
+    font-size: 16px;
+    color: rgb(0, 0, 0);
+    text-align: center;
+  }
+
+  .transparent-chart {
+    opacity: 0.0;
+  }
+
+  .transparent-header {
+    color: transparent;
+  }
+
+  .transparent-border table, .transparent-border td, .transparent-border th {
+    border-color: transparent;
+  }
+
+  .options-section label {
+    width: 100%;
+  }
+
+  

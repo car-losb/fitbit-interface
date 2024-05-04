@@ -2,7 +2,7 @@
     {
       "Date": "2024-04-01",
       "Km Walked": 5.2,
-      "Km Swam": 0
+      "Km Swam": 100
     },
     {
       "Date": "2024-04-02",
@@ -47,7 +47,7 @@
     {
       "Date": "2024-04-10",
       "Km Walked": 0,
-      "Km Swam": 0
+      "Km Swam": 50
     },
     {
       "Date": "2024-04-11",
@@ -96,7 +96,7 @@
     },
     {
       "Date": "2024-04-20",
-      "Km Walked": 0,
+      "Km Walked": 50,
       "Km Swam": 0
     },
     {
@@ -122,7 +122,7 @@
     {
       "Date": "2024-04-25",
       "Km Walked": 0,
-      "Km Swam": 0
+      "Km Swam": 60
     },
     {
       "Date": "2024-04-26",
@@ -146,7 +146,7 @@
     },
     {
       "Date": "2024-04-30",
-      "Km Walked": 0,
-      "Km Swam": 0
+      "Km Walked": 6,
+      "Km Swam": 7
     }
   ]
