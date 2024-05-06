@@ -29,3 +29,7 @@ Popup.js
 
 - This contains the structure for the popup users receive once they approve the data on their health report. It includes the identifiable information that is included on the report. 
 
+
+Assets Folder
+
+- Contains the json and csv files that emulate the Fitbit data collected by the Fitbit App. 
