@@ -18,12 +18,12 @@ const HealthReport = () => {
   const [weightChange, setWeightChange] = useState([]);
   const [showHeartRateChart, setShowHeartRateChart] = useState(false);
   const [showWeightChart, setShowWeightChart] = useState(false);
-  const [showWeightChangeChart, setShowWeightChangeChart] = useState(false); // New state
+  const [showWeightChangeChart, setShowWeightChangeChart] = useState(false); 
   const [caloriesData, setCaloriesData] = useState([]);
   const [showCaloriesChart, setShowCaloriesChart] = useState(false);
   const [exerciseTableData, setExerciseTableData] = useState([]);
   const [showExerciseChart, setShowExerciseChart] = useState(false);
-  const [includeWeightVisuals, setIncludeWeightVisuals] = useState(true); // State for weight chart toggle
+  const [includeWeightVisuals, setIncludeWeightVisuals] = useState(true); 
   const [includeVisuals, setIncludeVisuals] = useState(true); 
   const [includeDietVisuals, setIncludeDietVisuals] = useState(true); 
   const [includeWeightChangeVisuals, setIncludeWeightChangeVisuals] = useState(true);
@@ -32,18 +32,8 @@ const HealthReport = () => {
   const [includeInsights, setIncludeInsights] = useState(true);
   const [showPopup, setShowPopup] = useState(false);
 
-  useEffect(() => {
-    const getPreviousMonth = () => {
-      const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-      const date = new Date();
-      date.setMonth(date.getMonth() - 1);
-      const month = months[date.getMonth()];
-      const year = date.getFullYear();
-      return `${month} ${year}`;
-    };
-
-    setPreviousMonth(getPreviousMonth());
-  }, []);
+  // Identify Current Report's Month: Users will have until the end of the current month to send the health data for the 
+    // previous month (ex: During May, patients review data for April)
 
   useEffect(() => {
     const getPreviousMonth = () => {
@@ -58,14 +48,11 @@ const HealthReport = () => {
     setPreviousMonth(getPreviousMonth());
   }, []);
 
+  // Collect Data for the respective month
   useEffect(() => {
-    // Filter heart rate data for the month of April
     const aprilHeartRateData = heartRateData.filter(entry => entry.Date.startsWith('2024-04'));
-    // Filter weight data for the month of April
     const aprilWeightData = weightData.filter(entry => entry.Date.startsWith('2024-04'));
-  
     const aprilCaloriesData = calorieData.filter(entry => entry.Date.startsWith('2024-04'));
-  
     const aprilExerciseData = exerciseData.filter(entry => entry.Date.startsWith('2024-04'));
   
     // Calculate total water consumed per day
@@ -73,33 +60,36 @@ const HealthReport = () => {
     waterData.forEach(entry => {
     const date = entry.Date;
     let totalWater = 0;
-    // Sum up the values for each hour of the day
+
+  
     Object.values(entry).forEach(val => {
-    if (val !== '' && val !== date) { // Exclude empty values and the Date property
+    if (val !== '' && val !== date) { 
       totalWater += val;
     }
     });
     totalWaterPerDay[date] = totalWater;
     });
 
+    // Calculate total calories per day
+
     const totalCaloriesPerDay = {};
   calorieData.forEach(entry => {
     const date = entry.Date;
     let totalCalories = 0;
-    // Sum up the values for each hour of the day
+    
     Object.values(entry).forEach(val => {
-      if (val !== '' && val !== date) { // Exclude empty values and the Date property
+      if (val !== '' && val !== date) { 
         totalCalories += parseInt(val);
       }
     });
     totalCaloriesPerDay[date] = totalCalories;
   });
 
-  // Combine total calories, total water consumption, and other data
+  // Combine calorie and water data into Diet table
   const combinedData = aprilCaloriesData.map(entry => ({
     Date: entry.Date,
-    TotalCalories: totalCaloriesPerDay[entry.Date] || 0, // Add total calories consumed per day
-    TotalWaterConsumed: totalWaterPerDay[entry.Date] || 0 // Add total water consumed per day
+    TotalCalories: totalCaloriesPerDay[entry.Date] || 0, 
+    TotalWaterConsumed: totalWaterPerDay[entry.Date] || 0 
   }));
 
   setCaloriesData(combinedData);
@@ -107,14 +97,14 @@ const HealthReport = () => {
   
     // Calculate average heart rate for each day
     const averageHeartRates = aprilHeartRateData.map(entry => {
-      const heartRates = Object.values(entry).slice(1); // Exclude the Date property
+      const heartRates = Object.values(entry).slice(1); 
       const sum = heartRates.reduce((acc, val) => acc + val, 0);
       const avg = sum / heartRates.length;
       return { Date: entry.Date, AverageHeartRate: avg.toFixed(2) };
     });
   
     setAverageHeartRates(averageHeartRates);
-    setShowHeartRateChart(true); // Show the heart rate chart when data is loaded
+    setShowHeartRateChart(true); 
   
     // Calculate average weight and weight change for each week
     const averageWeights = [];
@@ -142,8 +132,7 @@ const HealthReport = () => {
           const change = currentWeekWeight - lastWeekWeight;
           weightChange.push({ Date: weekStartDate, WeightChange: change.toFixed(2) });
         }
-  
-        // Reset variables for the next week
+
         sum = 0;
         count = 0;
         weekStartDate = '';
@@ -151,9 +140,11 @@ const HealthReport = () => {
     });
   
     setAverageWeights(averageWeights);
-    setShowWeightChart(true); // Show the weight chart when data is loaded
+    setShowWeightChart(true); 
     setWeightChange(weightChange);
-    setShowWeightChangeChart(true); // Show the weight change chart when data is loaded
+    setShowWeightChangeChart(true); 
+
+    // Calculate average per day km run/swam for each week
   
     const averageKmData = [];
     let sumKmWalked = 0;
@@ -176,7 +167,6 @@ const HealthReport = () => {
           AverageKmSwam: avgKmSwam.toFixed(2)
         });
   
-        // Reset variables for the next week
         sumKmWalked = 0;
         sumKmSwam = 0;
         count = 0;
@@ -187,6 +177,8 @@ const HealthReport = () => {
     setExerciseTableData(averageKmData);
     setShowExerciseChart(true);
   }, []);
+
+  // Tab change logic
 
   const handleTabChange = (tabName) => {
     setActiveTab(tabName);
@@ -223,6 +215,8 @@ const HealthReport = () => {
     }
   };
 
+  // Handle voluntary visualization customization
+
   useEffect(() => {
     if (showHeartRateChart) {
       updateChart('heartRateChart', averageHeartRates, 'Average Heart Rate (BPM)');
@@ -235,6 +229,8 @@ const HealthReport = () => {
       updateExerciseChart('exerciseChart', exerciseTableData, 'Average Distance Walked and Swam');
     }
   }, [averageHeartRates, averageWeights, weightChange, caloriesData, exerciseTableData, showHeartRateChart, showWeightChart, showWeightChangeChart, showCaloriesChart, showExerciseChart]); 
+
+  // Create Visualizations for data
 
   const updateChart = (chartId, data, label) => {
     const labels = data.map(entry => entry.Date);
@@ -409,10 +405,19 @@ const HealthReport = () => {
     });
   };
 
+  // Insights Feature logic
+
   const checkHeartRateStatus = () => {
     const averageHeartRatesArray = averageHeartRates.map(entry => parseFloat(entry.AverageHeartRate));
     const above90 = averageHeartRatesArray.some(rate => rate > 90);
     const below60 = averageHeartRatesArray.some(rate => rate < 60);
+
+    // Heart Rate feature specification: according to studies, heart rate benchmarks can depend on patient weight, age, and existing health conditions
+    // dictionarr = {age, heart_rate min, heart_rate_max}
+    // const max = averageHeartRatesArray.some(rate => rate > dictionary[profileData.age].max);
+    // const min = averageHeartRatesArray.some(rate => rate > dictionary[profileData.age].min);
+
+    //***A more robust machine learning algorithm could be used to use weight, calorie, and age data to determine an adequate heart rate range.
     
     return above90 || below60 ? 'red' : 'green';
   };
@@ -420,20 +425,27 @@ const HealthReport = () => {
   const checkPhysicalActivityStatus = () => {
     const kmDataArray = exerciseTableData.map(entry => parseFloat(entry.AverageKmWalked) + parseFloat(entry.AverageKmSwam));
     const below5_6 = kmDataArray.some(sum => sum < 5.6);
+
+    // Phlysical Activity feature specification: physical activity benchmarks can depend greatly on individual fitness goals
+        // Given more time, I considered implementing a user settings feature where they can set their own fitness benchmarks based on 
+        // health provider suggestions. This could be included in profile settings.
+        //   const below5_6 = kmDataArray.some(sum => sum < profileData[km_min]);
   
     return below5_6 ? 'red' : 'green';
   };
 
+  // Visuals Customization Toggles
+
   const handleIncludeWeightVisualsToggle = () => {
-    setIncludeWeightVisuals(!includeWeightVisuals); // Toggle the state for weight chart
+    setIncludeWeightVisuals(!includeWeightVisuals); 
   };
 
   const handleIncludeVisualsToggle = () => {
-    setIncludeVisuals(!includeVisuals); // Toggle the state
+    setIncludeVisuals(!includeVisuals); 
   };
 
   const handleIncludeDietVisualsToggle = () => {
-    setIncludeDietVisuals(!includeDietVisuals); // Toggle the state for diet chart
+    setIncludeDietVisuals(!includeDietVisuals); 
   };
 
   const handleIncludeWeightChangeVisualsToggle = () => {
@@ -598,7 +610,6 @@ const HealthReport = () => {
             ) : (
               <canvas id="weightChart" className="transparent-chart"></canvas>
             )}
-            {/* Weight Change Chart with conditional class */}
             {includeWeightVisuals && includeWeightChangeVisuals ? (
               <canvas id="weightChangeChart"></canvas>
             ) : (
@@ -615,7 +626,7 @@ const HealthReport = () => {
             <tr>
               <th>Date</th>
               <th>Calories Consumed</th>
-              <th>Water Consumed (oz)</th> {/* Add a new column header for water consumption */}
+              <th>Water Consumed (oz)</th> 
             </tr>
           </thead>
           <tbody>
@@ -623,7 +634,7 @@ const HealthReport = () => {
               <tr key={index}>
                 <td>{entry.Date}</td>
                 <td>{entry.TotalCalories}</td>
-                <td>{entry.TotalWaterConsumed}</td> {/* Display total water consumed in ounces */}
+                <td>{entry.TotalWaterConsumed}</td> 
               </tr>
             ))}
           </tbody>
@@ -717,21 +728,21 @@ const HealthReport = () => {
     <div>
     <div className={`risk-analysis-textbox ${checkHeartRateStatus()}`}>
       {checkHeartRateStatus() === 'red' ? (
-        <div>
         <p>The patient does not meet benchmark heart rate standards.</p>
-        </div>
       ) : (
         <p>The patient meets heart rate benchmark standards.</p>
       )}
     </div>
-    <div className={`risk-analysis-textbox ${checkPhysicalActivityStatus()}`}>
-      {checkPhysicalActivityStatus() === 'red' ? (
-        <p>The patient does not meet physical activity benchmark.</p>
-      ) : (
-        <p>The patient meets physical activity benchmark.</p>
-      )}
-    </div>
-    </div>
+    {includeExercise && (
+  <div className={`risk-analysis-textbox ${checkPhysicalActivityStatus()}`}>
+    {checkPhysicalActivityStatus() === 'red' ? (
+      <p>The patient does not meet physical activity benchmark.</p>
+    ) : (
+      <p>The patient meets physical activity benchmark.</p>
+    )}
+  </div>
+  )}
+  </div>
     )}
     <div className="options-section">
                 <h2>Information</h2>

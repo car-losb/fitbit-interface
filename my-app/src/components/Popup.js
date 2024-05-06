@@ -4,7 +4,8 @@ import profileData from '../assets/profile.json';
 
 const Popup = ({ onClose }) => {
     const { firstName, lastName, age, sex } = profileData;
-  
+    
+    // Filter profile name data, only include initials to minimize data while ensuring identifiability. 
     return (
       <div className="popup-overlay">
           <div className="popup">
