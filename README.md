@@ -21,6 +21,7 @@ HealthReport.js
     - Data graphs/visualizations along with patient customization options to opt-in or out of data visualizations
     - Data filtering options, users can omit (weight change, exercise data)
     - Voluntary insights feature, calculates patient benchmark standards (heart rate, physical activity)
+        - Contains brief specifications for enhanced insights functions. Between lines 410 - 434. 
     - Information Popup, includes information about why the data is being solicited and how it will be used as well as filtering options 
         for patients.
 
