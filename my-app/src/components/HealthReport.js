@@ -485,16 +485,19 @@ const HealthReport = () => {
           <p className="popup-text"> has been approved. Health insurer will receive this information promptly.</p>
       </div>
     )}
+
+  
     <div className={`HealthReport ${showPopup ? 'blur-background' : ''}`}>
       <h1>{previousMonth} Health Report</h1>
       <button className="approve-button" onClick={togglePopup}>Approve Report >></button>
       <nav className="tab-nav">
         <ul>
+          {/* Originally I named the insights page "Risk Analysis," but I think for the purpose of avoiding specific use of this data, I opted for Insights"*/ }
           <li className={activeTab === 'Heart Rate' ? 'active' : ''} onClick={() => handleTabChange('Heart Rate')}>Heart Rate</li>
           <li className={activeTab === 'Weight' ? 'active' : ''} onClick={() => handleTabChange('Weight')}>Weight</li>
           <li className={activeTab === 'Diet' ? 'active' : ''} onClick={() => handleTabChange('Diet')}>Diet</li>
           <li className={activeTab === 'Exercise' ? 'active' : ''} onClick={() => handleTabChange('Exercise')}>Exercise</li>
-          <li className={activeTab === 'Risk Analysis' ? 'active' : ''} onClick={() => handleTabChange('Risk Analysis')}>Risk Analysis</li>
+          <li className={activeTab === 'Risk Analysis' ? 'active' : ''} onClick={() => handleTabChange('Risk Analysis')}>Insights</li>
         </ul>
       </nav>
       <div className="tab-content">
